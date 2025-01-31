@@ -1,0 +1,44 @@
+{
+  "name": "prettylog",
+  "version": "0.0.1",
+  "description": "",
+  "displayName": "Pretty Log",
+  "publisher": "TilakOli",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "activationEvents": [],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "prettyLog.insertBasicLog",
+        "title": "Pretty Log: Insert Basic Log"
+      },
+      {
+        "command": "prettyLog.insertJsonLog",
+        "title": "Pretty Log: Insert JSON Stringified Log"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "prettyLog.insertBasicLog",
+        "key": "alt+/",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "prettyLog.insertJsonLog",
+        "key": "alt+'",
+        "when": "editorTextFocus"
+      }
+    ]
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.80.0"
+  }
+}
