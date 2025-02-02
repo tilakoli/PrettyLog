@@ -1,8 +1,9 @@
 {
   "name": "prettylog",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "description": "",
   "displayName": "Pretty Log",
+  "icon": "assets/PrettyLogLogo.png",
   "publisher": "TilakOli",
   "repository": {
     "type": "git",

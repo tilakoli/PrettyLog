@@ -9,17 +9,19 @@ function activate(context) {
         const position = editor.selection.end;
         const currentLine = editor.document.lineAt(position.line);
         const indentation = currentLine.text.match(/^\s*/)[0];
+        const fileName = editor.document.fileName.split('/').pop();
+        const lineNo = position.line + 1;
 
         let logToInsert = '';
         
         if (logType === 'basic') {
-            logToInsert = `${indentation}console.log('🧑‍💻===>', ${text}, '<===🛑');`;
+            logToInsert = `\n${indentation}console.log('🧑‍💻${fileName}:${lineNo}=>', ${text}, '<===🛑');`;
         } else if (logType === 'json') {
-            logToInsert = `${indentation}console.log('🧑‍💻===>', JSON.stringify(${text}, null, 2), '<===🛑');`;
+            logToInsert = `\n${indentation}console.log('🧑‍💻${fileName}:${lineNo}=>', JSON.stringify(${text}, null, 2), '<===🛑');`;
         }
 
         editor.edit(editBuilder => {
-            editBuilder.insert(new vscode.Position(position.line + 1, 0), logToInsert + '\n');
+            editBuilder.insert(new vscode.Position(position.line, currentLine.text.length), logToInsert);
         });
     }
 
