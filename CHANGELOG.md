@@ -2,6 +2,10 @@
 
 All notable changes to the "Pretty Log" extension will be documented in this file.
 
+## [0.0.6] - 2024-02-02
+### FIX
+- Update Preview assets url.
+
 ## [0.0.5] - 2024-02-02
 ### Chore
 - Update Readme and add previews.

@@ -7,11 +7,11 @@ A VS Code extension for quickly adding styled `console.log` statements to your c
 
 
 ## Preview  
-![Pretty Log Demo](assets/demo.gif)  
+![Pretty Log Demo](https://raw.githubusercontent.com/tilakoli/PrettyLog/master/assets/demo.gif)  
 
 ### Screenshots  
-![Pretty Log Screenshot](assets/outputRegular.png)  
-![Pretty Log Screenshot](assets/outputstringyfied.png)  
+![Pretty Log Screenshot](https://raw.githubusercontent.com/tilakoli/PrettyLog/master/assets/outputRegular.png)  
+![Pretty Log Screenshot](https://raw.githubusercontent.com/tilakoli/PrettyLog/master/assets/outputstringyfied.png)  
 
 ## Why Pretty Log?
 ✅ **JSON Formatting**: Beautiful JSON output with proper indentation for arrays and objects.
