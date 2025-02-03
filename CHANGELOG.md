@@ -2,6 +2,14 @@
 
 All notable changes to the "Pretty Log" extension will be documented in this file.
 
+## [0.0.8] - 2024-02-03
+### FIX
+- Update file name logic to keep consistent filename across windows, mac and ubuntu.
+
+## [0.0.7] - 2024-02-03
+### FIX
+- Remove semicolon from the console log.
+
 ## [0.0.6] - 2024-02-02
 ### FIX
 - Update Preview assets url.
