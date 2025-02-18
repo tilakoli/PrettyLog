@@ -1,5 +1,4 @@
 const vscode = require("vscode");
-console.log("🧑‍💻 vscode👉", vscode, "👈 🛑");
 
 // USER CONFIGS:
 //  - Enable/Disable FileName, Line No, variable name in the logs from vs code settings.
