@@ -2,6 +2,12 @@
 
 All notable changes to the "Pretty Log" extension will be documented in this file.
 
+## [0.0.9] - 2024-02-18
+### FEAT
+- Configuration options to show/hide variableName, line.NO, and fileName.
+- Nearest word detection: Logging now works even if the cursor is on a word—no need to manually select the text.
+- Code organization and handler functions for better maintainability.
+
 ## [0.0.8] - 2024-02-03
 ### FIX
 - Update file name logic to keep consistent filename across windows, mac and ubuntu.

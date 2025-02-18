@@ -1,6 +1,6 @@
 {
   "name": "prettylog",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "",
   "displayName": "Pretty Log",
   "icon": "assets/PrettyLogLogo.png",
@@ -31,8 +31,36 @@
       {
         "command": "prettyLog.insertJsonLog",
         "title": "Pretty Log: Insert JSON Stringified Log"
+      },
+      {
+        "command": "prettyLog.insertErrorLog",
+        "title": "Pretty Log: Insert Error Log"
+      },
+      {
+        "command": "prettyLog.insertDebugLog",
+        "title": "Pretty Log: Insert Debug Log"
       }
     ],
+    "configuration": {
+    "title": "PrettyLog Settings",
+    "properties": {
+      "prettyLog.includeFileName": {
+        "type": "boolean",
+        "default": true,
+        "description": "Include file name in log"
+      },
+      "prettyLog.includeLineNumber": {
+        "type": "boolean",
+        "default": true,
+        "description": "Include line number in log"
+      },
+      "prettyLog.includeVariableName": {
+        "type": "boolean",
+        "default": true,
+        "description": "Include variable name in log output"
+      }
+    }
+  },
     "keybindings": [
       {
         "command": "prettyLog.insertBasicLog",
@@ -42,6 +70,16 @@
       {
         "command": "prettyLog.insertJsonLog",
         "key": "alt+'",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "prettyLog.insertErrorLog",
+        "key": "alt+2", 
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "prettyLog.insertDebugLog",
+        "key": "alt+1",
         "when": "editorTextFocus"
       }
     ]

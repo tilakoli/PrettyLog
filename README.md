@@ -1,10 +1,13 @@
 # Pretty Log
 A VS Code extension for quickly adding styled `console.log` statements to your code with distinctive emoji markers. Make your debugging more visual and organized! And No more staring into the cluttered log output to find that one variable, use JSON formatting to add proper indentation to your logs.
 
-## Get Started  
-- **Basic Logging:** Press `` `alt + /` `` (or `` `option + /` `` on Mac)  
-- **JSON Logging:** Press `` `alt + '` `` (or `` `option + '` `` on Mac)  
-
+## Usage
+1. Select or place the cursor near any variable or expression in your code.
+2. Use one of the keyboard shortcuts:
+   - Press `alt + /` (or option + / on Mac) for basic logging.
+   - Press `alt + '`  (or option + ' on Mac) for JSON formatted log outputs. Useful for arrays and nested objects.
+   - Press `alt + 1` for Debug log.
+   - Press `alt + 2` for Error log.
 
 ## Preview  
 ![Pretty Log Demo](https://raw.githubusercontent.com/tilakoli/PrettyLog/master/assets/demo.gif)  
@@ -24,11 +27,8 @@ A VS Code extension for quickly adding styled `console.log` statements to your c
 
 ✅ **Quick Access**: Simple keyboard shortcuts for different logging styles.
 
-## Usage
-1. Select any variable or expression in your code.
-2. Use one of the keyboard shortcuts:
-   - Press `alt + /` (or option + / on Mac) for basic logging.
-   - Press `alt + '`  (or option + ' on Mac) for JSON formatted log outputs. Useful for arrays and nested objects.
+✅ **Customizable Output**: Choose what to display in your logs!
+
 
 ## Features
 - Quick `console.log` insertion with distinctive emoji markers 🧑‍💻 🛑
@@ -39,15 +39,29 @@ A VS Code extension for quickly adding styled `console.log` statements to your c
   - `alt + /` : Basic `console.log` with filename and line no, and emoji markers
   - `alt + '` : `JSON.stringify` with formatting, helpful to view nested data.
 
-## Installation
-Search for **"Pretty Log"** in VS Code's extension marketplace or install it directly from [marketplace link].
+
+## Customization
+You can customize the log output by choosing whether to include the `variable name`,` file name`, and `line number` in your logs or not. By default all the options will be enabled.
+
+1. Open the **VS Code Settings**:  
+   - Press `Cmd + Shift + P` (Mac) or `Ctrl + Shift + P` (Windows/Linux).  
+   - Type **"Preferences: Open Settings (UI)"** and select it.  
+2. In the search bar, type **"Pretty Log"**.  
+3. Select the options you like  
+
+| Setting                         | Default | Description                               |
+|---------------------------------|---------|-------------------------------------------|
+| `prettyLog.includeFileName`     | `true`  | Include file name in the log output.      |
+| `prettyLog.includeLineNumber`   | `true`  | Include line number in the log output.    |
+| `prettyLog.includeVariableName` | `true`  | Include variable name in the log output.  |
+
 
 
 ## Example 1: Basic Logging
 ```javascript
 // Your code
 const user = { name: 'John', age: 30 };
-user  // <- select this and press alt + /
+user  // <- have the cursor anywhere in the word and press alt + /
 
 
 console.log('🧑‍💻app.js:2=>', user, '<===🛑');
@@ -73,6 +87,29 @@ console.log('🧑‍💻app.js:2=>', JSON.stringify(user, null, 2), '<===🛑');
 } <===🛑
 
 */
+```
+
+## Example 3: Debug Logging
+```javascript
+// Your code
+const isAuthenticated = false;
+isAuthenticated  // <- have the cursor anywhere in the word and press alt + 1
+
+
+console.debug('🐞 DEBUG app.js:2👉', isAuthenticated, '👈 🛑');
+// Output in your console: 
+🐞 DEBUG app.js:2👉 false 👈 🛑
+```
+
+## Example 4: Error Logging
+```javascript
+const errorMessage = "Invalid user credentials";
+errorMessage  // <- have the cursor anywhere in the word and press alt + 2
+
+
+console.error('❌ ERROR app.js:2👉', errorMessage, '👈 🛑');
+// Output in your console: 
+❌ ERROR app.js:2👉 Invalid user credentials 👈 🛑
 ```
 
 <!-- 
