@@ -5,7 +5,7 @@ A VS Code extension for quickly adding styled `console.log` statements to your c
 1. Select or place the cursor near any variable or expression in your code.
 2. Use one of the keyboard shortcuts:
    - Press `alt + /` (or option + / on Mac) for basic logging.
-   - Press `alt + '`  (or option + ' on Mac) for JSON formatted log outputs. Useful for arrays and nested objects.
+   - Press `alt + '`  (or option + ' on Mac) for JSON formatted log outputs. Useful for nested data or arrays or nested objects.
    - Press `alt + 1` for Debug log.
    - Press `alt + 2` for Error log.
 
@@ -17,7 +17,7 @@ A VS Code extension for quickly adding styled `console.log` statements to your c
 ![Pretty Log Screenshot](https://raw.githubusercontent.com/tilakoli/PrettyLog/master/assets/outputstringyfied.png)  
 
 ## Why Pretty Log?
-✅ **JSON Formatting**: Beautiful JSON output with proper indentation for arrays and objects.
+✅ **JSON Formatting**: Beautiful JSON output with proper indentation for nested logs.
 
 ✅ **Visual Markers**: Easily spot your logs with distinctive emoji markers.
 
@@ -29,8 +29,8 @@ A VS Code extension for quickly adding styled `console.log` statements to your c
 
 ✅ **Customizable Output**: Choose what to display in your logs!
 
-
-## Features
+<!-- Use the🧑‍💻 🛑 emoijs with in the readme files for line start and line end  -->
+## Features 
 - Quick `console.log` insertion with distinctive emoji markers 🧑‍💻 🛑
 - File name and line number tracking for easy debugging
 - `JSON.stringify` formatting with proper indentation
@@ -41,6 +41,7 @@ A VS Code extension for quickly adding styled `console.log` statements to your c
 
 
 ## Customization
+  #### Configuration Options
 You can customize the log output by choosing whether to include the `variable name`,` file name`, and `line number` in your logs or not. By default all the options will be enabled.
 
 1. Open the **VS Code Settings**:  
@@ -55,7 +56,34 @@ You can customize the log output by choosing whether to include the `variable na
 | `prettyLog.includeLineNumber`   | `true`  | Include line number in the log output.    |
 | `prettyLog.includeVariableName` | `true`  | Include variable name in the log output.  |
 
+## Customizing Shortcuts
 
+Pretty Log comes with the following default keyboard shortcuts:
+
+| Command | Shortcut |
+|---------|----------|
+| Insert Basic Log | `Alt+/` |
+| Insert JSON Stringified Log | `Alt+'` |
+| Insert Error Log | `Alt+2` |
+| Insert Debug Log | `Alt+1` |
+
+
+You can customize these keyboard shortcuts to match your preferences:
+
+1. Open VS Code Settings
+2. Go to Keyboard Shortcuts (`Ctrl+K Ctrl+S` or `Cmd+K Cmd+S` on Mac)
+3. Search for "Pretty Log" to see all available commands
+4. Click the pencil icon next to any command and set your preferred key combination
+
+Alternatively, you can directly edit your `keybindings.json` file by adding entries like:
+
+```json
+{
+  "key": "ctrl+alt+l",
+  "command": "prettyLog.insertBasicLog",
+  "when": "editorTextFocus"
+}
+``` 
 
 ## Example 1: Basic Logging
 ```javascript
@@ -74,7 +102,7 @@ console.log('🧑‍💻app.js:2=>', user, '<===🛑');
 ```javascript
 // Your code
 const user = { name: 'John', age: 30 };
-user  // <- select this and press alt + '
+user  // <- have the cursor anywhere in the word and press alt + '
 
 
 console.log('🧑‍💻app.js:2=>', JSON.stringify(user, null, 2), '<===🛑');

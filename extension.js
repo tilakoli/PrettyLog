@@ -26,8 +26,11 @@ function activate(context) {
 
       const config = vscode.workspace.getConfiguration("prettyLog");
       const selection = editor.selection;
+      const document = editor.document;
 
       let text = editor.document.getText(selection);
+      let selectedRange = selection;
+
       if (!text) {
         if (selection.isEmpty) {
           const wordRange = editor.document.getWordRangeAtPosition(
@@ -35,6 +38,7 @@ function activate(context) {
           );
           if (wordRange) {
             text = editor.document.getText(wordRange);
+            selectedRange = wordRange;
           } else {
             text = '"prettyLog"';
           }
@@ -43,9 +47,109 @@ function activate(context) {
         }
       }
 
-      const position = editor.selection.end;
-      const currentLine = editor.document.lineAt(position.line);
-      const indentation = currentLine.text.match(/^\s*/)[0];
+      // Get current line and surrounding context
+      const curLineNum = selectedRange.start.line;
+      const curLineText = document.lineAt(curLineNum).text;
+
+      // Check if we're inside JSX (look for typical JSX patterns)
+      const isInsideJSX =
+        curLineText.trim().match(/<.*>/) ||
+        curLineText.match(/^\s*</) ||
+        curLineText.match(/>\s*$/);
+
+      // Check if we're on a function declaration line
+      const isFunctionDeclaration =
+        curLineText.match(/\)\s*=>\s*{/) ||
+        curLineText.match(/function\s+\w+\s*\(/) ||
+        curLineText.match(/\w+\s*\([^)]*\)\s*{/);
+
+      // Check if we're on a variable declaration line
+      const isVariableDeclaration =
+        curLineText.match(/^\s*(const|let|var)\s+\w+/) &&
+        !curLineText.match(/;\s*$/);
+
+      let position, indentation;
+
+      if (isInsideJSX) {
+        // For JSX, we need to wrap the log in {}
+        const logText = `{console.log('🧑‍💻 ${text}👉', ${text}, '👈 🛑')}`;
+
+        // Try to find a good location - preferably right after a JSX opening tag
+        position = new vscode.Position(curLineNum, curLineText.length);
+        indentation = curLineText.match(/^\s*/)[0];
+
+        // Custom JSX log format
+        const logStatements = {
+          basic: ` ${logText}`,
+          json: ` ${logText.replace(")", ", null, 2)")}`,
+          error: ` {console.error('❌ ERROR ${text}👉', ${text}, '👈 🛑')}`,
+          debug: ` {console.debug('🐞 DEBUG ${text}👉', ${text}, '👈 🛑')}`,
+        };
+
+        const logToInsert = logStatements[logType] || logStatements.basic;
+
+        editor.edit((editBuilder) => {
+          editBuilder.insert(position, logToInsert);
+        });
+
+        return; // Exit early for JSX case
+      }
+
+      if (isFunctionDeclaration) {
+        // For function declarations, find the opening brace and place log after it
+        let bracePosition = -1;
+        for (let i = curLineNum; i < document.lineCount; i++) {
+          const line = document.lineAt(i).text;
+          bracePosition = line.indexOf("{");
+          if (bracePosition >= 0) {
+            position = new vscode.Position(i, bracePosition + 1);
+            indentation = document.lineAt(i).text.match(/^\s*/)[0] + "  "; // Add two spaces for indentation
+            break;
+          }
+        }
+
+        if (bracePosition < 0) {
+          // Fallback if no brace found
+          position = new vscode.Position(curLineNum, curLineText.length);
+          indentation = curLineText.match(/^\s*/)[0];
+        }
+      } else if (isVariableDeclaration) {
+        // For variable declarations, find the end of the declaration
+        let endLine = curLineNum;
+        let foundEnd = false;
+
+        for (
+          let i = curLineNum;
+          i < Math.min(curLineNum + 30, document.lineCount);
+          i++
+        ) {
+          const lineText = document.lineAt(i).text;
+          if (
+            lineText.trim().endsWith(";") ||
+            (lineText.trim().endsWith("}") && !lineText.trim().endsWith("{}"))
+          ) {
+            endLine = i;
+            foundEnd = true;
+            break;
+          }
+        }
+
+        if (foundEnd) {
+          position = new vscode.Position(
+            endLine,
+            document.lineAt(endLine).text.length
+          );
+          indentation = document.lineAt(endLine).text.match(/^\s*/)[0];
+        } else {
+          // If end not found, default to current line
+          position = new vscode.Position(curLineNum, curLineText.length);
+          indentation = curLineText.match(/^\s*/)[0];
+        }
+      } else {
+        // For all other cases, use the current line
+        position = new vscode.Position(curLineNum, curLineText.length);
+        indentation = curLineText.match(/^\s*/)[0];
+      }
 
       const prefixParts = [];
 
@@ -55,7 +159,7 @@ function activate(context) {
       }
 
       if (config.get("includeLineNumber")) {
-        const lineNo = `:${position.line + 1}`;
+        const lineNo = `:${selectedRange.start.line + 1}`;
         prefixParts.push(lineNo);
       }
 
@@ -81,15 +185,12 @@ function activate(context) {
 
       editor
         .edit((editBuilder) => {
-          editBuilder.insert(
-            new vscode.Position(position.line, currentLine.text.length),
-            logToInsert
-          );
+          editBuilder.insert(position, logToInsert);
         })
         .then(() => {
           const newPosition = new vscode.Position(
             position.line + 1,
-            currentLine.text.length
+            curLineText.length
           );
           editor.selection = new vscode.Selection(newPosition, newPosition);
         });
