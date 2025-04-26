@@ -44,25 +44,50 @@
       }
     ],
     "configuration": {
-    "title": "PrettyLog Settings",
-    "properties": {
-      "prettyLog.includeFileName": {
-        "type": "boolean",
-        "default": true,
-        "description": "Include file name in log"
-      },
-      "prettyLog.includeLineNumber": {
-        "type": "boolean",
-        "default": true,
-        "description": "Include line number in log"
-      },
-      "prettyLog.includeVariableName": {
-        "type": "boolean",
-        "default": true,
-        "description": "Include variable name in log output"
+      "title": "PrettyLog Settings",
+      "properties": {
+        "prettyLog.includeFileName": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include file name in log"
+        },
+        "prettyLog.includeLineNumber": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include line number in log"
+        },
+        "prettyLog.includeVariableName": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include variable name in log output"
+        },
+        "prettyLog.emoji.prefix": {
+          "type": "string",
+          "default": "🧑‍💻",
+          "description": "Emoji used at the beginning of log statements"
+        },
+        "prettyLog.emoji.pointer": {
+          "type": "string",
+          "default": "👉",
+          "description": "Emoji used as pointer before the variable"
+        },
+        "prettyLog.emoji.end": {
+          "type": "string",
+          "default": "👈 🛑",
+          "description": "Emoji used at the end of log statements"
+        },
+        "prettyLog.emoji.error": {
+          "type": "string",
+          "default": "❌ ERROR",
+          "description": "Emoji/text used for error logs"
+        },
+        "prettyLog.emoji.debug": {
+          "type": "string",
+          "default": "🐞 DEBUG",
+          "description": "Emoji/text used for debug logs"
+        }
       }
-    }
-  },
+    },
     "keybindings": [
       {
         "command": "prettyLog.insertBasicLog",

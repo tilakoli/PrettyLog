@@ -1,21 +1,7 @@
 const vscode = require("vscode");
 
-// USER CONFIGS:
-//  - Enable/Disable FileName, Line No, variable name in the logs from vs code settings.
-
-// Log Types:
-// basic : Basic log something like :: console.log('🧑‍💻 ${text}👉', ${logText}, '👈 🛑')
-// json :  For formatting the arrays in the console output. :: console.log('🧑‍💻 ${fileName}:${lineNo}|${text}=>', JSON.stringify(${logToInsert}, null, 2), '👈 🛑')
-
-// error : LOG out marked as errors with error emojis  :: console.error('❌ ERROR 🧑‍💻 ${fileName}:${lineNo}|${text}=>', ${logToInsert}, '👈 🛑')
-// debug : LOG out marked with a bug emoji :: console.debug('🐞 DEBUG 🧑‍💻 ${fileName}:${lineNo}|${text}=>', ${logToInsert}, '👈 🛑')
-
-//  [][][][][][][][][][][] <============== WIP =============> [][][][][][][][][][] //
-// The next step will be to add the functionality of log detection, don't print the log in invalid places eg: inside a object
-// It should be printed outside the obj itself where it won't throw any errors.
-
 function activate(context) {
-  // actual function for logging and formatting
+  //logging and formatting
   function insertLog(logType) {
     try {
       const editor = vscode.window.activeTextEditor;
@@ -27,6 +13,13 @@ function activate(context) {
       const config = vscode.workspace.getConfiguration("prettyLog");
       const selection = editor.selection;
       const document = editor.document;
+
+      // Get custom emojis from config
+      const prefixEmoji = config.get("emoji.prefix") || "🧑‍💻";
+      const pointerEmoji = config.get("emoji.pointer") || "👉";
+      const endEmoji = config.get("emoji.end") || "👈 🛑";
+      const errorEmoji = config.get("emoji.error") || "❌ ERROR";
+      const debugEmoji = config.get("emoji.debug") || "🐞 DEBUG";
 
       let text = editor.document.getText(selection);
       let selectedRange = selection;
@@ -72,7 +65,7 @@ function activate(context) {
 
       if (isInsideJSX) {
         // For JSX, we need to wrap the log in {}
-        const logText = `{console.log('🧑‍💻 ${text}👉', ${text}, '👈 🛑')}`;
+        const logText = `{console.log('${prefixEmoji} ${text}${pointerEmoji}', ${text}, '${endEmoji}')}`;
 
         // Try to find a good location - preferably right after a JSX opening tag
         position = new vscode.Position(curLineNum, curLineText.length);
@@ -82,8 +75,8 @@ function activate(context) {
         const logStatements = {
           basic: ` ${logText}`,
           json: ` ${logText.replace(")", ", null, 2)")}`,
-          error: ` {console.error('❌ ERROR ${text}👉', ${text}, '👈 🛑')}`,
-          debug: ` {console.debug('🐞 DEBUG ${text}👉', ${text}, '👈 🛑')}`,
+          error: ` {console.error('${errorEmoji} ${text}${pointerEmoji}', ${text}, '${endEmoji}')}`,
+          debug: ` {console.debug('${debugEmoji} ${text}${pointerEmoji}', ${text}, '${endEmoji}')}`,
         };
 
         const logToInsert = logStatements[logType] || logStatements.basic;
@@ -175,10 +168,10 @@ function activate(context) {
       }
 
       const logStatements = {
-        basic: `\n${indentation}console.log('🧑‍💻 ${logPrefix}👉', ${text}, '👈 🛑')`,
-        json: `\n${indentation}console.log('🧑‍💻 ${logPrefix}👉', JSON.stringify(${text}, null, 2), '👈 🛑')`,
-        error: `\n${indentation}console.error('❌ ERROR ${logPrefix}👉', ${text}, '👈 🛑')`,
-        debug: `\n${indentation}console.debug('🐞 DEBUG ${logPrefix}👉', ${text}, '👈 🛑')`,
+        basic: `\n${indentation}console.log('${prefixEmoji} ${logPrefix}${pointerEmoji}', ${text}, '${endEmoji}')`,
+        json: `\n${indentation}console.log('${prefixEmoji} ${logPrefix}${pointerEmoji}', JSON.stringify(${text}, null, 2), '${endEmoji}')`,
+        error: `\n${indentation}console.error('${errorEmoji} ${logPrefix}${pointerEmoji}', ${text}, '${endEmoji}')`,
+        debug: `\n${indentation}console.debug('${debugEmoji} ${logPrefix}${pointerEmoji}', ${text}, '${endEmoji}')`,
       };
 
       const logToInsert = logStatements[logType] || logStatements.basic;
