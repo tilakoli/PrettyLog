@@ -2,6 +2,12 @@
 
 All notable changes to the "Pretty Log" extension will be documented in this file.
 
+## [0.0.10] - 2024-04-26
+### FEAT
+- Add Ability to customize emojis for the logs.
+- Updated readme.
+- Remove repeating string from output log, when no variable selected.
+
 ## [0.0.9] - 2024-02-18
 ### FEAT
 - Configuration options to show/hide variableName, line.NO, and fileName.
