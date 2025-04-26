@@ -167,7 +167,7 @@ function activate(context) {
 
       let logPrefix;
       if (text === '"prettyLog"') {
-        logPrefix = text;
+        logPrefix = ""; 
       } else {
         logPrefix = config.get("includeVariableName")
           ? `${prefix}${text}`

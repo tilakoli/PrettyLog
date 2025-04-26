@@ -1,6 +1,6 @@
 {
   "name": "prettylog",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Prettify your logs.",
   "displayName": "Pretty Log",
   "icon": "assets/PrettyLogLogo.png",
